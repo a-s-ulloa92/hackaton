@@ -8,32 +8,26 @@
 	
 	
 	
-//Modificar
- if(isset($_POST['valida']) /*and $_POST['ciclo']*/){
+//Para mostrar datos del examen seleccionado
+ if(isset($_POST['valida'])){
+	 #Agarra ID del examen
 	 $varmod = $_POST['Examen'];
 	 
+	 #Selecciona datos del examen con el ID $varmod
 	 $CAD = "select fechaIni, fechaFin, clave 
 	 from examen where idExamen = '".$varmod."'";
 		
 	 $reg = mysqli_query($conn,$CAD);
 	 $row = $reg->fetch_array(MYSQLI_BOTH);
 	 
-	 
+	 #Guarda en variables de sesion los datos del examen para mostrarlos al
+	 #volver a cargar la página
 	 $_SESSION['idexamen'] = $_POST['Examen'];
 	 
 	 $_SESSION['mclave'] = $row['clave'];
 	 $_SESSION['mfechaini'] = $row['fechaIni'];
-	 $_SESSION['mfechafin'] = $row['fechaFin'];
-	 
-	 
-	 
-	 #$_SESSION['mid'] = $row['idprofesor'];
-	
-	 //Cuando esta variable es True, al escoger Guardar se actualiza el profesor que se seleccionó en el combobox con Modificar
-	 $_SESSION['modifica'] = True;
-	 
+	 $_SESSION['mfechafin'] = $row['fechaFin']; 
 }
-
 	?>
 
 <!DOCTYPE html>
@@ -115,25 +109,7 @@
                     <ul class="nav" id="side-menu">
                         
                         
-                        <li>
-                            <a href="profesores.php"><i class="fa fa-edit fa-fw"></i> Profesores</a>
-                        </li>
-						<li>
-                            <a href="formaalumnos.php"><i class="fa fa-edit fa-fw"></i> Alumnos</a>
-                        </li>
-						<li>
-                            <a href="asignatura.php"><i class="fa fa-edit fa-fw"></i> Asignaturas</a>
-                        </li>
-						<li>
-                            <a href=""><i class="fa fa-edit fa-fw"></i> Servicio</a>
-                        </li>
-						<li>
-                            <a href=""><i class="fa fa-edit fa-fw"></i> Beca</a>
-                        </li>
-						<li>
-                            <a href="reportes.php"><i class="fa fa-edit fa-fw"></i> Reportes</a>
-                        </li>
-                        
+                      
                        
 					 
                     </ul>
@@ -155,36 +131,35 @@
 			
 			
 			
-			<!--Seleccionar examen-->
 			<form action="" method="post">
+			
+			<!--Seleccionar examen-->
 			<div class="element-select" title="Examen">
-									<label class="title"><span class="required"></span></label>
-									<div class="item-cont"><div class="large">
-									<span><select id= "Examen" name="Examen">
-								<!--	<option selected> 
-										<?php  $nombrepr = $_SESSION['rprofesor']; echo $nombrepr;?>
-										</option> -->
-										<?php  
-											$vartemp = $_SESSION['id'];
+				<label class="title"><span class="required"></span></label>
+				<div class="item-cont"><div class="large">
+					<span><select id= "Examen" name="Examen">
+					<?php  
+						$vartemp = $_SESSION['id'];
 											
-											
-											$sql = "select idexamen, clave 
-											from examen where maestro_idmaestro = '".$vartemp."'";
-											if ($reg2 = mysqli_query($conn, $sql)) {
-												
-												while($row = mysqli_fetch_array($reg2)) { 
-													$comboprof .='<option value='.$row['idexamen'].'> '.$row['clave'].' </option>';
-													
-												}
-												echo $comboprof;
-											}
-											else {
-											}
-										?>
-									</select><i></i><span class="icon-place"></span></span></div></div>
+						$sql = "select idexamen, clave 
+						from examen where maestro_idmaestro = '".$vartemp."'";
+						if ($reg2 = mysqli_query($conn, $sql)) {
+							while($row = mysqli_fetch_array($reg2)) 
+							{ 
+								$comboex .='<option value='.$row['idexamen'].'> '.$row['clave'].' </option>';
+							}
+							echo $comboex;
+						}else {
+							echo "No hay exámenes registrados.";
+						
+						}
+					?>
+					</select><i></i>
+			<span class="icon-place"></span></span></div></div>
 			</div>
+			
 			<div class="col-lg-6">
-			<!-- Change this to a button or input when using this as a form -->
+			<!-- Validar eleccion de examen -->
 			<input  class="btn btn-danger btn " id= "valida" name = "valida" type="submit" value="Elegir examen"  />
 			</div>	
 			
@@ -196,10 +171,11 @@
 			
 			<!-- Alumnos -->
 			 <div class="row">
-                <div >
+                <div>
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <?php 
+                            <?php
+							#Muestra la clave del examen
 							$vartemp = $_SESSION['idexamen'];
 											
 							$sql = "select clave
@@ -213,7 +189,7 @@
 							?>
 							
                         </div>
-                        <!-- /.panel-heading -->
+                        <!-- Tabla mostrando las preguntas y respuestas del examen -->
                         <div class="panel-body">
                             <div class="table-responsive">
                                 <table class="table table-striped">
@@ -228,7 +204,6 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <!--<tr>-->
                                         <?php
 											$vartemp = $_SESSION['idexamen'];
 											
@@ -247,27 +222,15 @@
 													<td>$row[r4]</td></tr>";
 												}
 											}
-											
-			
-										
-										
 										?>
 										
-										<!--</tr>-->
-                                        
                                         
                                     </tbody>
                                 </table>
                             </div>
-                            <!-- /.table-responsive -->
                         </div>
-                        <!-- /.panel-body -->
                     </div>
-                    <!-- /.panel -->
                 </div>
-                <!-- /.col-lg-6 -->
-                
-                <!-- /.col-lg-6 -->
             </div>
 			
 			</form>

@@ -5,18 +5,18 @@
 	$conn = dbConnect();
 	$conn->set_charset("utf8");
 // CONTROL DE EVENTOS CLICK EN BOTON GUARDAR
-    $tnombre = "";
-	$tdescripcion = "";//
 
 	
-
+#Parte que agrega una pregunta
 if(isset($_POST['valida'])){
-
+	
+	#Se debe llenar el campo de pregunta y la primera respuesta
 	if(!empty($_POST['pregunta']) && !empty($_POST['resp1'])){
 		
+		#Contador del numero de preguntas
 		$_SESSION['contador'] += 1;
 		
-		
+		#Agarra respuestas de los campos
 		$tresp1 = $_POST['resp1'];
 		$tresp2 = $_POST['resp2'];
 		$tresp3 = $_POST['resp3'];
@@ -26,7 +26,7 @@ if(isset($_POST['valida'])){
 		$count = $_SESSION['contador'];
 		
 		
-		//REVISAR registro de usuario
+		#Inserta pregunta en la base de datos
 		$cade = "insert into preguntas(r1,r2, r3, r4, texto, examen_idexamen, npregunta)
 		values('".$tresp1."','".$tresp2."','".$tresp3."','".$tresp4."','".$tpreg."','".$temp."','".$count."')";
 		
@@ -39,7 +39,7 @@ if(isset($_POST['valida'])){
 		if($res) {
 			// el registro fue ingresado a la base de datos con exito
 			echo '<script language = javascript>
-				alert("el registro fue ingresado con exito")
+				alert("Pregunta guardada")
 				window.location.href = "preguntas.php";
 				</script>';
 		}
@@ -53,12 +53,13 @@ if(isset($_POST['valida'])){
 
  }
  
- 
+ #Terminar examen
 if(isset($_POST['valida2'])){
      echo '<script language = javascript>
 	 var a = confirm("Seguro que desea terminar?");
 	 if (a==true){
-		 window.location.href = "examen.php";
+		window.location.href = "examen.php";
+		
 	 }
 	 else{
 		 
@@ -150,15 +151,7 @@ if(isset($_POST['valida2'])){
                 <div class="sidebar-nav navbar-collapse">
                     <ul class="nav" id="side-menu">
                         
-                        
-                        <li>
-                            <a href="asignatura.php"><i class="fa fa-edit fa-fw"></i> Registra un libro</a>
-                        </li>
-						<li>
-                            <a href="reportes.php"><i class="fa fa-edit fa-fw"></i> Lista de libros</a>
-                        </li>
-                        
-                       
+                     
 					 
                     </ul>
                 </div>
@@ -185,11 +178,12 @@ if(isset($_POST['valida2'])){
                         <div class="panel-body">
 							<form role="form" method = "POST" action = "preguntas.php">
 								
-								
+								<!--Muestra pregunta-->
 								<div class="form-group">
 									<input class="form-control" id= "pregunta" name = "pregunta" type="text" placeholder="Pregunta">
                                 </div>
 								
+								<!--Campos de respuestas-->
 								
 								
 								<div class="form-group">
@@ -213,12 +207,12 @@ if(isset($_POST['valida2'])){
                                 
 										
 								<div class="col-lg-6">
-								<!-- Change this to a button or input when using this as a form -->
+								<!-- Guardar pregunta -->
 									<input  class="btn btn-danger btn " id= "valida" name = "valida" type="submit" value="Guardar pregunta"  />
 								</div>					
 								
 								<div class="col-lg-6">
-								<!-- Change this to a button or input when using this as a form -->
+								<!-- Termina de registrar examen -->
 									<input  class="btn btn-danger btn " id= "valida2" name = "valida2" type="submit" value="Terminar"  />
 								</div>	
 								

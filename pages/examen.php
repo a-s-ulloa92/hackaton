@@ -8,19 +8,20 @@
   
  
  $_SESSION['idexamen'] = "";
- 
  $_SESSION['contador'] = 0;
  
  
 if(isset($_POST['valida'])){
-
+	
+	#No debe haber campos vacios
 	if(!empty($_POST['clave']) && !empty($_POST['fecha1']) && !empty($_POST['fecha2'])){
+		#Guarda los datos de los campos en variables
 		$tclave = $_POST['clave'];
 		$tfechaini = $_POST['fecha1'];
 		$tfechafin = $_POST['fecha2'];
-		$test = $_SESSION['id'];
+		$test = $_SESSION['id'];	#Guarda el id del profesor (variable de sesion)
 		
-		
+		#Busca el examen con la clave dada. Si ya existe, da error; si no, lo incluye en la BD
 		$cade = "select * from examen where clave = '".$tclave."'";
 		$res = mysqli_query($conn, $cade);
 		if ($res && $res->num_rows){
@@ -30,9 +31,8 @@ if(isset($_POST['valida'])){
 				</script>';
 		}
 		else{
-			//REVISAR registro de usuario
 				
-				
+			#La fecha de inicio no debe ser despues de la de fin
 			if ($tfechaini > $tfechafin){
 				echo '<script language = javascript>
 					alert("Fechas invalidas")
@@ -40,6 +40,7 @@ if(isset($_POST['valida'])){
 					</script>';
 			}
 			else{
+				#Inserta los datos del examen en la BD
 				$cade = "insert into examen(maestro_idmaestro,clave,fechaini, fechafin)
 				values('".$test."','".$tclave."','".$tfechaini."','".$tfechafin."')";
 			
@@ -58,7 +59,7 @@ if(isset($_POST['valida'])){
 					$_SESSION['idexamen'] = $row['id'];
 					
 					echo '<script language = javascript>
-						alert("el registro fue ingresado con exito")
+						alert("Examen registrado. Pasando a la sección de preguntas...")
 						window.location.href = "preguntas.php";
 						</script>';
 						
@@ -162,12 +163,6 @@ if(isset($_POST['valida'])){
                     <ul class="nav" id="side-menu">
                         
                         
-                        <li>
-                            <a href="asignatura.php"><i class="fa fa-edit fa-fw"></i> Registra un libro</a>
-                        </li>
-						<li>
-                            <a href="reportes.php"><i class="fa fa-edit fa-fw"></i> Lista de libros</a>
-                        </li>
                         
                        
 					 
@@ -194,10 +189,9 @@ if(isset($_POST['valida'])){
                             Datos de asignaturas
                         </div>
                         <div class="panel-body">
-							<form role="form" method = "POST" action = "examen.php">
-								
-								
 							
+							<!--Campos de clave y fechas-->
+							<form role="form" method = "POST" action = "examen.php">
 								
 								<div class="form-group">
 									<input class="form-control" id= "clave" name = "clave" type="text" placeholder="Clave">
@@ -213,14 +207,10 @@ if(isset($_POST['valida'])){
 									<input class="form-control" id= "fecha2" name = "fecha2" type="date" placeholder="Fecha de termino">
                                 </div>
 										
+								<!--Botón para guardar datos-->
 								<div class="col-lg-6">
-								
-								<!-- Change this to a button or input when using this as a form -->
 									<input  class="btn btn-danger btn " id= "valida" name = "valida" type="submit" value="Guardar"  />
 								</div>					
-								
-								
-								
 								
                             </form>
                          </div>
