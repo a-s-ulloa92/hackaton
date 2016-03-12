@@ -1,0 +1,24 @@
+@import url(https://fonts.googleapis.com/css?family=Lato|Ubuntu|Indie+Flower|Anton|Shadows+Into+Light);
+@import url(https://fonts.googleapis.com/css?family=Raleway);
+body{
+     background: url("../img/mathBackground.jpg") repeat;
+}
+
+.title{
+    color: #267D7D;
+    height: 30px;
+    font-size: 100px;
+  	letter-spacing: 3px;
+	font-family: 'Indie Flower', sans-serif;
+	font-weight: 100;
+    text-shadow: 0 7px rgba(0,0,0,0.1);
+    text-align: center;
+	padding: 0 8px;
+}
+.numbers{
+    text-align: center;
+    color: #267D7D;
+    font-size: 140px;
+    letter-spacing: 5px;
+    font-family: "Raleway", sans-serif;
+}

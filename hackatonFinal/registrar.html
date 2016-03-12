@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<div class=center>
+<head>
+
+  <meta charset="UTF-8">
+
+  <title>Registro</title>
+
+  <link rel='stylesheet' href='http://codepen.io/assets/libs/fullpage/jquery-ui.css'>
+
+    <link rel="stylesheet" href="css/login.css" media="screen" type="text/css" />
+
+</head>
+
+<body>
+  <div class="registro">
+    <h1>Registro</h1><br>
+  <form action = "registrado.php" method = post>
+    <input type="text" name="nombre" placeholder="Nombre completo" required>
+    <input type="text" name="usuario" placeholder="Usuario" required>
+    <input type="password" name="contrasena" placeholder="Contraseña" required>
+    <input type="submit" name="registro" id = "registro" class="login login-submit" value="Registrarme">
+  </form>
+
+  <div class="register">
+    <center> <a href="loginMaestro.html">Atras</a> </center>
+  </div>
+</div>
+
+<!-- <div id="error"><img src="https://dl.dropboxusercontent.com/u/23299152/Delete-icon.png" /> Your caps-lock is on.</div> -->
+
+  <script src='http://codepen.io/assets/libs/fullpage/jquery_and_jqueryui.js'></script>
+  <script>
+  <?php
+  echo '<script> alert("hola"); </script>'
+  if(isset($_POST['registro'])){
+    $_SESSION['nombre'] = $_POST['nombre'];
+    $_SESSION['usuario'] = $_POST['usuario'];
+    $_SESSION['contrasena'] = $_POST['contrasena'];
+  }
+
+  ?>
+  </script>
+</body>
+
+</html>
